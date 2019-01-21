@@ -71,11 +71,12 @@ function drawingLoop() {
 //   console.log("(" + event.x + "," + event.y + ")");
 // };
 
-canvas.addEventListener("mousemove", function(event) {
+canvas.onmousemove = function(event) {
   clientX = event.clientX;
   clientY = event.clientY;
+  event.preventDefault();
   console.log(event);
-});
+};
 
 // keydown event handler
 document.onkeydown = function(event) {
