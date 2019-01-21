@@ -67,7 +67,15 @@ function drawingLoop() {
 }
 
 // mouse position handler
-document.onkeydown = function(event) {};
+// document.onmousemove = function(event) {
+//   console.log("(" + event.x + "," + event.y + ")");
+// };
+
+canvas.addEventListener("mousemove", function(event) {
+  clientX = event.clientX;
+  clientY = event.clientY;
+  console.log(event);
+});
 
 // keydown event handler
 document.onkeydown = function(event) {
