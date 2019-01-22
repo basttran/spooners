@@ -72,10 +72,22 @@ function drawingLoop() {
 // };
 
 canvas.onmousemove = function(event) {
-  clientX = event.clientX;
-  clientY = event.clientY;
+  // clientX = event.clientX;
+  // clientY = event.clientY;
   event.preventDefault();
   console.log(event);
+  var pagex = document.querySelector(".page-x");
+  var pagey = document.querySelector(".page-y");
+  pagex.innerHTML = event.clientX;
+  pagey.innerHTML = event.clientY;
+  var canvx = document.querySelector(".canv-x");
+  var canvy = document.querySelector(".canv-y");
+  canvx.innerHTML = event.clientX;
+  canvy.innerHTML = event.clientY;
+  var shipx = document.querySelector(".ship-x");
+  var shipy = document.querySelector(".ship-y");
+  shipx.innerHTML = event.clientX;
+  shipy.innerHTML = event.clientY;
 };
 
 // keydown event handler
