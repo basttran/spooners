@@ -10,24 +10,58 @@ var originY = ctx.canvas.height * 0.5;
 // ------
 // Ship
 // ------------
-var shipImg = new Image();
-// sepcify src as if it was from the html file
-shipImg.src = "./images/temp_ship.png";
-shipImg.onload = function() {
-  drawShip();
-};
-var ship = {
-  x: 0,
-  y: 0,
-  width: 50,
-  height: 50,
-  angle: 0,
-  hull: 100,
-  shield: 100,
-  ammo: 50,
-  // When ship crashes the game is over
-  isCrashed: false
-};
+
+class Vessel {
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+    this.angle = 0;
+    this.img = new Image();
+    this.img.src = "./images/temp_ship.png";
+    this.width = 50;
+    this.height = 50;
+  }
+  align() {
+    // rotation should probably be defined as a ship's method
+  }
+  thrust() {
+    // 'acceleration' should probably be defined as a ship's method
+  }
+  shoot() {
+    var newRound = new Round();
+    rounds.push(newRound);
+  }
+}
+var ship = new Vessel();
+
+var rounds = [];
+
+class Round {
+  constructor() {
+    this.x = ship.x;
+    this.y = ship.y;
+    this.angle = ship.angle;
+    this.img = new Image();
+    this.img.src = "./images/temp_round.png";
+    this.speed = 4;
+    this.width = 10;
+    this.height = 10;
+  }
+
+  move() {
+    this.x -= this.speed * Math.cos(this.angle + Math.PI / 2);
+    this.y -= this.speed * Math.sin(this.angle + Math.PI / 2);
+    // 'acceleration' should probably be defined as a ship's method
+  }
+}
+
+function roundsLogic() {
+  //Manage rounds drawing
+  rounds.forEach(function(oneRound) {
+    drawRound(oneRound);
+    oneRound.move();
+  });
+}
 
 ctx.translate(500, 250);
 // Drawing
@@ -46,39 +80,22 @@ function drawShip() {
   ctx.save();
   ctx.rotate(ship.angle);
   ctx.translate(-ship.width / 2, -ship.height / 2);
-  ctx.drawImage(shipImg, ship.x, ship.y, ship.width, ship.height);
+  ctx.drawImage(ship.img, ship.x, ship.y, ship.width, ship.height);
   ctx.restore();
 }
 
-// these functions are currently
-// copy-pasted from the drawShip
-// function, they have to eventually
-// be able to take arrays as input
-// (and act adequatly if the
-// array is empty)
+function drawRound(round) {
+  ctx.save();
+  ctx.translate(-round.width / 2, -round.height / 2);
+  ctx.drawImage(round.img, round.x, round.y, round.width, round.height);
+  ctx.restore();
+}
 
-// ----------------------------------------
-// function drawLaser() {
-//   ctx.save();
-//   ctx.rotate(laser.angle);
-//   ctx.translate(-laser.width / 2, -laser.height / 2);
-//   ctx.drawImage(laserImg, laser.x, laser.y, laser.width, laser.height);
-//   ctx.restore();
-// };
-// function drawRound()  {
-//   ctx.save();
-//   ctx.rotate(round.angle);
-//   ctx.translate(-round.width / 2, -round.height / 2);
-//   ctx.drawImage(roundImg, round.x, round.y, round.width, round.height);
-//   ctx.restore();
-// };
-// function drawTorpedo(); {
-//   ctx.save();
-//   ctx.rotate(torpedo.angle);
-//   ctx.translate(-torpedo.width / 2, -torpedo.height / 2);
-//   ctx.drawImage(torpedoImg, torpedo.x, torpedo.y, torpedo.width, torpedo.height);
-//   ctx.restore();
-// }
+function drawRounds(rounds) {
+  rounds.forEach(function(oneRound) {
+    drawRound(oneRound);
+  });
+}
 
 drawingLoop();
 
@@ -88,7 +105,7 @@ function drawingLoop() {
   drawBackground();
   drawShip();
   // drawLaser();
-  // drawRound();
+  roundsLogic();
   // drawTorpedo();
   // drawProxy();
   // drawBoss();
@@ -117,6 +134,7 @@ canvas.oncontextmenu = function(event) {
 canvas.onclick = function(event) {
   event.preventDefault();
   console.log("Pew pew");
+  ship.shoot();
 };
 
 // updates the ship's rotation
