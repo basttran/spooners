@@ -63,6 +63,40 @@ function roundsLogic() {
   });
 }
 
+var sentinels = [];
+
+class Sentinel {
+  constructor() {
+    this.x = 400;
+    this.y = 200;
+    this.angle = 0;
+    this.img = new Image();
+    this.img.src = "./images/temp_sentinel.png";
+    this.speed = 2;
+    this.width = 25;
+    this.height = 25;
+  }
+
+  move() {
+    if (this.x <= -650) {
+      this.speed = Math.abs(this.speed);
+    }
+    if (this.x >= 650) {
+      this.speed = -Math.abs(this.speed);
+    }
+    this.x += this.speed;
+    // 'acceleration' should probably be defined as a ship's method
+  }
+}
+
+function sentinelsLogic() {
+  //Manage sentinels drawing
+  sentinels.forEach(function(oneSentinel) {
+    drawSentinel(oneSentinel);
+    oneSentinel.move();
+  });
+}
+
 ctx.translate(500, 250);
 // Drawing
 // -------
@@ -97,6 +131,25 @@ function drawRounds(rounds) {
   });
 }
 
+function drawSentinel(sentinel) {
+  ctx.save();
+  ctx.translate(-sentinel.width / 2, -sentinel.height / 2);
+  ctx.drawImage(
+    sentinel.img,
+    sentinel.x,
+    sentinel.y,
+    sentinel.width,
+    sentinel.height
+  );
+  ctx.restore();
+}
+
+function drawSentinels(sentinels) {
+  rounds.forEach(function(oneSentinel) {
+    drawSentinel(oneSentinel);
+  });
+}
+
 drawingLoop();
 
 function drawingLoop() {
@@ -106,6 +159,7 @@ function drawingLoop() {
   drawShip();
   // drawLaser();
   roundsLogic();
+  sentinelsLogic();
   // drawTorpedo();
   // drawProxy();
   // drawBoss();
@@ -128,6 +182,8 @@ function drawingLoop() {
 canvas.oncontextmenu = function(event) {
   event.preventDefault();
   console.log("Coucou rightclick");
+  var newSentinel = new Sentinel();
+  sentinels.push(newSentinel);
 };
 
 // shoots
