@@ -3,7 +3,7 @@ var canvas = document.querySelector(".spooners");
 // get the context object (has all the methods for drawing things)
 var ctx = canvas.getContext("2d");
 var originX = ctx.canvas.width * 0.5;
-var originY = ctx.canvas.heigth * 0.5;
+var originY = ctx.canvas.height * 0.5;
 // ctx.translate(originX, originY);
 
 // Assets
@@ -71,23 +71,34 @@ function drawingLoop() {
 //   console.log("(" + event.x + "," + event.y + ")");
 // };
 
+
+// updating
 canvas.onmousemove = function(event) {
   // clientX = event.clientX;
   // clientY = event.clientY;
   event.preventDefault();
   console.log(event);
-  var pagex = document.querySelector(".page-x");
-  var pagey = document.querySelector(".page-y");
-  pagex.innerHTML = event.clientX;
-  pagey.innerHTML = event.clientY;
-  var canvx = document.querySelector(".canv-x");
-  var canvy = document.querySelector(".canv-y");
-  canvx.innerHTML = event.clientX;
-  canvy.innerHTML = event.clientY;
-  var shipx = document.querySelector(".ship-x");
-  var shipy = document.querySelector(".ship-y");
-  shipx.innerHTML = event.clientX;
-  shipy.innerHTML = event.clientY;
+  var mcos = document.querySelector(".cos");
+  var msin = document.querySelector(".sin");
+  relativex = event.clientX - window.innerWidth * 0.5;
+  relativey = event.clientY - ctx.canvas.height * 0.5;
+  relativecos =
+    (relativex * 1 + relativey * 0) /
+    (Math.sqrt(relativex ** 2 + relativey ** 2) * Math.sqrt(1 ** 2 + 0 ** 2));
+  relativesin =
+    (relativex * 0 + relativey * (-1)) /
+    (Math.sqrt(relativex ** 2 + relativey ** 2) * Math.sqrt(0 ** 2 + (-1) ** 2));
+  mcos.innerHTML = relativecos;
+  msin.innerHTML = relativesin;
+  ship.angle = Math.atan2(relativecos, relativesin);
+};
+
+window.onresize = function(event) {
+  var gameFrame = document.querySelector(".spooners");
+  var canvw = document.querySelector(".canv-w");
+  var canvh = document.querySelector(".canv-h");
+  canvw.innerHTML = window.innerWidth;
+  canvh.innerHTML = "500";
 };
 
 // keydown event handler
@@ -129,3 +140,11 @@ document.onkeydown = function(event) {
       break;
   }
 };
+
+// shape3.on('mouseenter', function () {
+//   stage.container().style.cursor = 'crosshair';
+// });
+
+// shape3.on('mouseleave', function () {
+//   stage.container().style.cursor = 'default';
+// });
