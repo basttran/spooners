@@ -1,36 +1,68 @@
 html {
   height: 100%;
+  width: 100%;
 }
 
 body {
   height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.panels {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-sart;
-  align-content: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
   margin: 0;
 }
 
-div {
-  height: 25%;
-  display: flex;
-  justify-content: center;
+#left {
+  width: 15%;
+  padding: 0 auto;
+  text-align: center;
+  align-items: stretch;
+  flex-grow: 1;
 }
 
-.devtools {
+#right {
+  width: 15%;
+  padding: 0 auto;
+  text-align: center;
+  align-items: stretch;
+  flex-grow: 1;
+}
+
+#middle {
+  width: 100%;
+  /* height: 100%; */
   display: flex;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  align-content: center;
   justify-content: space-around;
+  flex-grow: 10;
+  background-color: pink;
+}
+
+#spooner {
+  display: block;
+  flex-basis: 2;
+  margin: 0;
 }
 
 h4 {
-  margin: 0;
+  /* margin: 0; */
 }
 
 h5 {
-  margin: 0;
+  /* margin: 0; */
 }
 
 section {
-  width: 15%;
-  text-align: center;
+  height: 30%;
 }

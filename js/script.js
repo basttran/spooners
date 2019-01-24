@@ -1,13 +1,19 @@
 // get the <canvas> tag from the document
-var canvas = document.querySelector(".spooners");
+var canvas = document.getElementById("spooners");
+var parent = document.getElementById("middle");
+console.log(parent);
+canvas.width = parent.offsetWidth;
+canvas.height = parent.offsetHeight;
 // get the context object (has all the methods for drawing things)
 var ctx = canvas.getContext("2d");
 // var originX = ctx.canvas.width * 0.5;
 // var originY = ctx.canvas.height * 0.5;
 // ctx.translate(originX, originY);
-ctx.width=window.innerWidth;
-ctx.height=window.innerHeight*0.85;
-ctx.translate(ctx.width/2, ctx.height/2);
+// var middleDiv = document.querySelector(".middle")
+// console.log(middleDiv.width);
+// canvas.width = middleDiv.width;
+// canvas.height = middleDiv.height;
+ctx.translate(parent.offsetWidth / 2, parent.offsetHeight / 2);
 // var dims = document.querySelector(".spooners");
 
 var ammo = 50;
@@ -26,9 +32,8 @@ class Vessel {
     this.img.src = "./images/temp_ship.png";
     this.width = 50;
     this.height = 50;
-    this.mun = munStart,
-    this.score = 0;
-    this.isCrashed = false
+    (this.mun = munStart), (this.score = 0);
+    this.isCrashed = false;
   }
   align() {
     // rotation should probably be defined as a ship's method
@@ -38,16 +43,15 @@ class Vessel {
   }
   shoot() {
     if (this.mun > 0) {
-      this.mun -=1;
+      this.mun -= 1;
       var newRound = new Round();
       rounds.push(newRound);
     }
-    
   }
   status() {
-    sentinels.forEach(function (oneSentinel) {
+    sentinels.forEach(function(oneSentinel) {
       discCollision(ship, oneSentinel);
-      if (ship.isCrashed===true) {
+      if (ship.isCrashed === true) {
         alert("You loose!!!");
         ship = new Vessel(ammo);
         rounds = [];
@@ -70,8 +74,6 @@ class Vessel {
 }
 var ship = new Vessel(ammo);
 
-
-
 var rounds = [];
 
 class Round {
@@ -84,16 +86,20 @@ class Round {
     this.speed = 4;
     this.width = 10;
     this.height = 10;
-    this.isCrashed = false
+    this.isCrashed = false;
   }
   move() {
     this.x -= this.speed * Math.cos(this.angle + Math.PI / 2);
     this.y -= this.speed * Math.sin(this.angle + Math.PI / 2);
   }
   status() {
-    this.isCrashed = (this.x > ctx.width/2 || this.x < -ctx.width/2 || this.y > ctx.width || this.y < -ctx.width);
-    };
-  };
+    this.isCrashed =
+      this.x > ctx.width / 2 ||
+      this.x < -ctx.width / 2 ||
+      this.y > ctx.width ||
+      this.y < -ctx.width;
+  }
+}
 
 function roundsLogic() {
   //Manage rounds drawing
@@ -108,7 +114,7 @@ function roundsLogic() {
   //   return oneRound.isCrashed == true;
   // });
   drawRounds(rounds);
-};
+}
 
 function removeCrashedSentinels() {
   sentinels = sentinels.filter(function(oneSentinel) {
@@ -116,8 +122,8 @@ function removeCrashedSentinels() {
     //   console.log(isCrashed)
     // }
     return !oneSentinel.isCrashed;
-});
-};
+  });
+}
 
 function removeCrashedRounds() {
   rounds = rounds.filter(function(oneRound) {
@@ -125,12 +131,8 @@ function removeCrashedRounds() {
     //   console.log(isCrashed)
     // }
     return !oneRound.isCrashed;
-});
-};
-
-
-
-
+  });
+}
 
 var sentinels = [];
 
@@ -146,25 +148,25 @@ class Sentinel {
     this.speed = 2;
     this.width = 25;
     this.height = 25;
-    this.isCrashed = false
+    this.isCrashed = false;
   }
 
   move() {
-    if (this.x <= -(ctx.width/2-15)) {
-      this.dx =-1*this.dx;
+    if (this.x <= -(ctx.width / 2 - 15)) {
+      this.dx = -1 * this.dx;
       this.x += 20;
     }
-    if (this.x >= (-15+ctx.width/2)) {
-      this.dx =-1*this.dx;
+    if (this.x >= -15 + ctx.width / 2) {
+      this.dx = -1 * this.dx;
       this.x -= 20;
     }
-    if (this.y <= -(ctx.height/2-15)) {
-      this.dy =-1*this.dy;
-      this.y +=20;
+    if (this.y <= -(ctx.height / 2 - 15)) {
+      this.dy = -1 * this.dy;
+      this.y += 20;
     }
-    if (this.y >= (-15+ctx.height/2)) {
-      this.dy =-1*this.dy;
-      this.y -=20;
+    if (this.y >= -15 + ctx.height / 2) {
+      this.dy = -1 * this.dy;
+      this.y -= 20;
     }
     this.x += this.speed * this.dx * Math.cos(this.angle);
     this.y += this.speed * this.dy * Math.sin(this.angle);
@@ -176,7 +178,7 @@ function sentinelsLogic() {
   sentinels.forEach(function(oneSentinel) {
     if (oneSentinel.isCrashed == true) {
       console.log(ship.score);
-      ship.score +=1;
+      ship.score += 1;
     }
     drawSentinel(oneSentinel);
     oneSentinel.move();
@@ -190,20 +192,16 @@ function sentinelsLogic() {
 //   });
 // }
 
-
-
-
 function discCollision(assetA, assetB) {
   var dx = assetA.x - assetB.x;
   var dy = assetA.y - assetB.y;
   var distance = Math.sqrt(dx * dx + dy * dy);
 
-  if (distance <= assetA.width/2 + assetB.width/2) {
+  if (distance <= assetA.width / 2 + assetB.width / 2) {
     assetA.isCrashed = true;
     assetB.isCrashed = true;
   }
 }
-
 
 // Drawing
 // -------
@@ -213,7 +211,13 @@ function drawBackground() {
   // fillStyle controls the color of ALL the next files
   ctx.fillStyle = "black";
   // draw a solid rectangle that covers all the canvas
-  ctx.fillRect(-ctx.width/2, -ctx.height/2, ctx.width, ctx.height);
+  // ctx.translate(150 , 75);
+  ctx.fillRect(
+    -(canvas.width / 2),
+    -(canvas.height / 2),
+    canvas.width,
+    canvas.height
+  );
 }
 // Ship
 // --------------
@@ -261,8 +265,7 @@ drawingLoop();
 
 function drawingLoop() {
   // erase the whole canvas before drawing (x, y, width, height)
-  ctx.clearRect(-ctx.width/2, -ctx.height/2, ctx.width, ctx.height);
-  
+  // ctx.translate(150 , 75);
   drawBackground();
   drawShip();
   // drawLaser();
@@ -296,7 +299,11 @@ function drawingLoop() {
 canvas.oncontextmenu = function(event) {
   event.preventDefault();
   console.log("Coucou rightclick");
-  var newSentinel = new Sentinel((Math.floor(Math.random()*2)-0.5)*2*ctx.width*0.9,(Math.floor(Math.random()*2)-0.5)*2*ctx.height*0.9, Math.atan2(2*(Math.random()-0.5),2*(Math.random()-0.5)));
+  var newSentinel = new Sentinel(
+    (Math.floor(Math.random() * 2) - 0.5) * 2 * ctx.width * 0.9,
+    (Math.floor(Math.random() * 2) - 0.5) * 2 * ctx.height * 0.9,
+    Math.atan2(2 * (Math.random() - 0.5), 2 * (Math.random() - 0.5))
+  );
   sentinels.push(newSentinel);
 };
 
@@ -311,10 +318,11 @@ canvas.onclick = function(event) {
 canvas.onmousemove = function(event) {
   event.preventDefault();
   console.log(event);
-  // var mcos = document.querySelector(".cos");
-  // var msin = document.querySelector(".sin");
-  relativex = event.clientX - ctx.width * 0.5;
-  relativey = event.clientY - ctx.height * 0.5;
+  var mousex = document.querySelector(".mouse-x");
+  var mousey = document.querySelector(".mouse-y");
+  var angle = document.querySelector(".angle");
+  relativex = event.clientX - canvas.width * 0.5;
+  relativey = event.clientY - canvas.height * 0.5;
   relativecos =
     (relativex * 1 + relativey * 0) /
     (Math.sqrt(relativex ** 2 + relativey ** 2) * Math.sqrt(1 ** 2 + 0 ** 2));
@@ -322,8 +330,8 @@ canvas.onmousemove = function(event) {
     (relativex * 0 + relativey * -1) /
     (Math.sqrt(relativex ** 2 + relativey ** 2) *
       Math.sqrt(0 ** 2 + (-1) ** 2));
-  // mcos.innerHTML = relativecos;
-  // msin.innerHTML = relativesin;
+  mousex.innerHTML = relativex;
+  mousey.innerHTML = relativey;
   ship.angle = Math.atan2(relativecos, relativesin);
 };
 
@@ -334,7 +342,7 @@ canvas.onmousemove = function(event) {
 //   ctx.height=window.innerHeight*0.75;
 //   canvw.innerHTML = window.innerWidth;
 //   canvh.innerHTML = window.innerHeight*0.75;
-  
+
 // };
 
 // keydown event handler
@@ -373,8 +381,6 @@ document.onkeydown = function(event) {
 //   stage.container().style.cursor = 'default';
 // });
 
-
-
 // PUZZLE LOGIC
 // -------------------------------------
 // 4 arrays of puzzles
@@ -389,26 +395,28 @@ document.onkeydown = function(event) {
 
 // MOTTOS
 
-var mottos = ["cooper8",
-              "contempl8",
-              "integr8",
-              "assimil8",
-              "extermin8",
-              "elabor8",
-              "replic8",
-              "instanti8",
-              "collabor8",
-              "decim8",
-              "concaten8",
-              "communic8",
-              "anticip8",
-              "complic8",
-              "ordonn8",
-              "duplica8",
-              "interpol8",
-              "annihil8",
-              "compens8",
-              "enumer8",
-              "rot8",
-              "retali8",
-              "devi8"];
+var mottos = [
+  "cooper8",
+  "contempl8",
+  "integr8",
+  "assimil8",
+  "extermin8",
+  "elabor8",
+  "replic8",
+  "instanti8",
+  "collabor8",
+  "decim8",
+  "concaten8",
+  "communic8",
+  "anticip8",
+  "complic8",
+  "ordonn8",
+  "duplica8",
+  "interpol8",
+  "annihil8",
+  "compens8",
+  "enumer8",
+  "rot8",
+  "retali8",
+  "devi8"
+];
