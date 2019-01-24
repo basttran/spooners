@@ -2,9 +2,14 @@
 var canvas = document.querySelector(".spooners");
 // get the context object (has all the methods for drawing things)
 var ctx = canvas.getContext("2d");
-var originX = ctx.canvas.width * 0.5;
-var originY = ctx.canvas.height * 0.5;
+// var originX = ctx.canvas.width * 0.5;
+// var originY = ctx.canvas.height * 0.5;
 // ctx.translate(originX, originY);
+ctx.width=window.innerWidth;
+ctx.height=window.innerHeight*0.75;
+ctx.translate(ctx.width/2, ctx.height/2);
+
+
 
 // Assets
 // ------
@@ -47,7 +52,6 @@ class Round {
     this.width = 10;
     this.height = 10;
   }
-
   move() {
     this.x -= this.speed * Math.cos(this.angle + Math.PI / 2);
     this.y -= this.speed * Math.sin(this.angle + Math.PI / 2);
@@ -66,25 +70,40 @@ function roundsLogic() {
 var sentinels = [];
 
 class Sentinel {
-  constructor() {
-    this.x = 400;
-    this.y = 200;
-    this.angle = 0;
+  constructor(startX, startY, startAngle) {
+    this.x = startX;
+    this.y = startY;
+    this.angle = startAngle;
     this.img = new Image();
     this.img.src = "./images/temp_sentinel.png";
+    this.dx = 1;
+    this.dy = 1;
     this.speed = 2;
     this.width = 25;
     this.height = 25;
   }
 
   move() {
-    if (this.x <= -650) {
-      this.speed = Math.abs(this.speed);
+    if (this.x <= -(ctx.width/2-10)) {
+      this.dx =-1*this.dx;
+      this.x += 10;
     }
-    if (this.x >= 650) {
-      this.speed = -Math.abs(this.speed);
+    if (this.x >= (-10+ctx.width/2)) {
+      this.dx =-1*this.dx;
+      this.x -= 10;
     }
-    this.x += this.speed;
+    if (this.y <= -(ctx.height/2-10)) {
+      this.dy =-1*this.dy;
+      this.y +=10;
+    }
+    if (this.y >= (-10+ctx.height/2)) {
+      this.dy =-1*this.dy;
+      this.y -=10;
+    }
+    this.x += this.speed * this.dx * Math.cos(this.angle);
+    this.y += this.speed * this.dy * Math.sin(this.angle);// *this.dy
+    //* Math.cos(this.dx*this.angle + Math.PI / 2);
+    //this.y += this.speed * Math.sin(this.dy*this.angle + Math.PI / 2);
     // 'acceleration' should probably be defined as a ship's method
   }
 }
@@ -97,7 +116,6 @@ function sentinelsLogic() {
   });
 }
 
-ctx.translate(500, 250);
 // Drawing
 // -------
 // Background
@@ -106,7 +124,7 @@ function drawBackground() {
   // fillStyle controls the color of ALL the next files
   ctx.fillStyle = "black";
   // draw a solid rectangle that covers all the canvas
-  ctx.fillRect(-500, -300, 1000, 600);
+  ctx.fillRect(-ctx.width/2, -ctx.height/2, ctx.width, ctx.height);
 }
 // Ship
 // --------------
@@ -145,7 +163,7 @@ function drawSentinel(sentinel) {
 }
 
 function drawSentinels(sentinels) {
-  rounds.forEach(function(oneSentinel) {
+  sentinels.forEach(function(oneSentinel) {
     drawSentinel(oneSentinel);
   });
 }
@@ -154,7 +172,7 @@ drawingLoop();
 
 function drawingLoop() {
   // erase the whole canvas before drawing (x, y, width, height)
-  ctx.clearRect(-500, -300, 1000, 600);
+  ctx.clearRect(-ctx.width/2, -ctx.height/2, ctx.width, ctx.height);
   drawBackground();
   drawShip();
   // drawLaser();
@@ -173,6 +191,9 @@ function drawingLoop() {
   });
 }
 
+
+///// USER INTERACTION
+
 // mouse position handler
 // document.onmousemove = function(event) {
 //   console.log("(" + event.x + "," + event.y + ")");
@@ -182,9 +203,10 @@ function drawingLoop() {
 canvas.oncontextmenu = function(event) {
   event.preventDefault();
   console.log("Coucou rightclick");
-  var newSentinel = new Sentinel();
+  var newSentinel = new Sentinel(150,150, Math.atan2(2*(Math.random()-0.5),2*(Math.random()-0.5)));
   sentinels.push(newSentinel);
 };
+
 
 // shoots
 canvas.onclick = function(event) {
@@ -201,8 +223,8 @@ canvas.onmousemove = function(event) {
   console.log(event);
   var mcos = document.querySelector(".cos");
   var msin = document.querySelector(".sin");
-  relativex = event.clientX - window.innerWidth * 0.5;
-  relativey = event.clientY - ctx.canvas.height * 0.5;
+  relativex = event.clientX - ctx.width * 0.5;
+  relativey = event.clientY - ctx.height * 0.5;
   relativecos =
     (relativex * 1 + relativey * 0) /
     (Math.sqrt(relativex ** 2 + relativey ** 2) * Math.sqrt(1 ** 2 + 0 ** 2));
@@ -215,13 +237,16 @@ canvas.onmousemove = function(event) {
   ship.angle = Math.atan2(relativecos, relativesin);
 };
 
-window.onresize = function(event) {
-  var gameFrame = document.querySelector(".spooners");
-  var canvw = document.querySelector(".canv-w");
-  var canvh = document.querySelector(".canv-h");
-  canvw.innerHTML = window.innerWidth;
-  canvh.innerHTML = "500";
-};
+// window.onresize = function(event) {
+//   ctx.translate(window.innerWidth/2, window.innerHeight*0.75/2);
+//   ctx.width=window.innerWidth;
+//   ctx.height=window.innerHeight*0.75;
+//   canvw.innerHTML = window.innerWidth;
+//   canvh.innerHTML = window.innerHeight*0.75;
+  
+// };
+
+
 
 // keydown event handler
 document.onkeydown = function(event) {
@@ -232,12 +257,6 @@ document.onkeydown = function(event) {
   // check keycodes @ keycode.info
   console.log("coucou KEY DOWN " + event.keyCode);
   switch (event.keyCode) {
-    // case 37:
-    // // prevents the default behaviour of keyboard presses (scrolling)
-    // event.preventDefault();
-    // ship.x = ship.x-5*Math.cos(ship.angle); // forward
-    // ship.y = ship.y-5*Math.sin(ship.angle); // taking the angle into account
-    // break;
     case 37:
       // prevents the default behaviour of keyboard presses (scrolling)
       event.preventDefault();
@@ -246,12 +265,6 @@ document.onkeydown = function(event) {
         "COUCOU babord" + ship.angle + "posX" + ship.x + "posY" + ship.y
       );
       break;
-    // case 39:
-    // // prevents the default behaviour of keyboard presses (scrolling)
-    // event.preventDefault();
-    // ship.x = ship.x-5*Math.cos(ship.angle); // forward
-    // ship.y = ship.y-5*Math.sin(ship.angle); // taking the angle into account
-    // break;
     case 39:
       // prevents the default behaviour of keyboard presses (scrolling)
       event.preventDefault();
@@ -270,6 +283,8 @@ document.onkeydown = function(event) {
 // shape3.on('mouseleave', function () {
 //   stage.container().style.cursor = 'default';
 // });
+
+
 
 // PUZZLE LOGIC
 // -------------------------------------
