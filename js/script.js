@@ -8,8 +8,9 @@ var ctx = canvas.getContext("2d");
 ctx.width=window.innerWidth;
 ctx.height=window.innerHeight*0.85;
 ctx.translate(ctx.width/2, ctx.height/2);
+// var dims = document.querySelector(".spooners");
 
-var ammo = 20;
+var ammo = 50;
 
 // Assets
 // ------
@@ -53,6 +54,18 @@ class Vessel {
         sentinels = [];
       }
     });
+    if (ship.score > 9) {
+      alert("You win!!!");
+      ship = new Vessel(ammo);
+      rounds = [];
+      sentinels = [];
+    }
+    if (ship.mun == 0) {
+      alert("You loose!!!");
+      ship = new Vessel(ammo);
+      rounds = [];
+      sentinels = [];
+    }
   }
 }
 var ship = new Vessel(ammo);
@@ -161,6 +174,10 @@ class Sentinel {
 function sentinelsLogic() {
   //Manage sentinels drawing
   sentinels.forEach(function(oneSentinel) {
+    if (oneSentinel.isCrashed == true) {
+      console.log(ship.score);
+      ship.score +=1;
+    }
     drawSentinel(oneSentinel);
     oneSentinel.move();
   });
@@ -294,8 +311,8 @@ canvas.onclick = function(event) {
 canvas.onmousemove = function(event) {
   event.preventDefault();
   console.log(event);
-  var mcos = document.querySelector(".cos");
-  var msin = document.querySelector(".sin");
+  // var mcos = document.querySelector(".cos");
+  // var msin = document.querySelector(".sin");
   relativex = event.clientX - ctx.width * 0.5;
   relativey = event.clientY - ctx.height * 0.5;
   relativecos =
@@ -305,8 +322,8 @@ canvas.onmousemove = function(event) {
     (relativex * 0 + relativey * -1) /
     (Math.sqrt(relativex ** 2 + relativey ** 2) *
       Math.sqrt(0 ** 2 + (-1) ** 2));
-  mcos.innerHTML = relativecos;
-  msin.innerHTML = relativesin;
+  // mcos.innerHTML = relativecos;
+  // msin.innerHTML = relativesin;
   ship.angle = Math.atan2(relativecos, relativesin);
 };
 
