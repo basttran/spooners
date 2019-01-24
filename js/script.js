@@ -25,6 +25,7 @@ class Vessel {
     this.img.src = "./images/temp_ship.png";
     this.width = 50;
     this.height = 50;
+    this.isCrashed = false
   }
   align() {
     // rotation should probably be defined as a ship's method
@@ -39,6 +40,15 @@ class Vessel {
 }
 var ship = new Vessel();
 
+function shipLogic() {
+  //Manage rounds drawing
+  rounds.forEach(function(oneRound) {
+    drawRound(oneRound);
+    oneRound.move();
+  });
+}
+
+
 var rounds = [];
 
 class Round {
@@ -51,11 +61,11 @@ class Round {
     this.speed = 4;
     this.width = 10;
     this.height = 10;
+    this.isCrashed = false
   }
   move() {
     this.x -= this.speed * Math.cos(this.angle + Math.PI / 2);
     this.y -= this.speed * Math.sin(this.angle + Math.PI / 2);
-    // 'acceleration' should probably be defined as a ship's method
   }
 }
 
@@ -81,24 +91,25 @@ class Sentinel {
     this.speed = 2;
     this.width = 25;
     this.height = 25;
+    this.isCrashed = false
   }
 
   move() {
-    if (this.x <= -(ctx.width/2-10)) {
+    if (this.x <= -(ctx.width/2-15)) {
       this.dx =-1*this.dx;
-      this.x += 10;
+      this.x += 20;
     }
-    if (this.x >= (-10+ctx.width/2)) {
+    if (this.x >= (-15+ctx.width/2)) {
       this.dx =-1*this.dx;
-      this.x -= 10;
+      this.x -= 20;
     }
-    if (this.y <= -(ctx.height/2-10)) {
+    if (this.y <= -(ctx.height/2-15)) {
       this.dy =-1*this.dy;
-      this.y +=10;
+      this.y +=20;
     }
-    if (this.y >= (-10+ctx.height/2)) {
+    if (this.y >= (-15+ctx.height/2)) {
       this.dy =-1*this.dy;
-      this.y -=10;
+      this.y -=20;
     }
     this.x += this.speed * this.dx * Math.cos(this.angle);
     this.y += this.speed * this.dy * Math.sin(this.angle);// *this.dy
@@ -115,6 +126,21 @@ function sentinelsLogic() {
     oneSentinel.move();
   });
 }
+
+
+function discCollision(assetAx, assetAy, assetAw, assetBx, assetBy, assetBw ) {
+  var assetA = {diameter: assetAw/2, x: assetAx, y: assetAy};
+  var assetB = {diameter: assetBw/2, x: assetBx, y: assetBy};
+
+  var dx = assetA.x - assetB.x;
+  var dy = assetA.y - assetB.y;
+  var distance = Math.sqrt(dx * dx + dy * dy);
+
+  if (distance < assetA.diameter + assetB.diameter) {
+        // collision détectée !
+  }
+}
+
 
 // Drawing
 // -------
@@ -191,7 +217,6 @@ function drawingLoop() {
   });
 }
 
-
 ///// USER INTERACTION
 
 // mouse position handler
@@ -203,10 +228,9 @@ function drawingLoop() {
 canvas.oncontextmenu = function(event) {
   event.preventDefault();
   console.log("Coucou rightclick");
-  var newSentinel = new Sentinel(150,150, Math.atan2(2*(Math.random()-0.5),2*(Math.random()-0.5)));
+  var newSentinel = new Sentinel((Math.floor(Math.random()*2)-0.5)*2*ctx.width*0.9,(Math.floor(Math.random()*2)-0.5)*2*ctx.height*0.9, Math.atan2(2*(Math.random()-0.5),2*(Math.random()-0.5)));
   sentinels.push(newSentinel);
 };
-
 
 // shoots
 canvas.onclick = function(event) {
@@ -217,8 +241,6 @@ canvas.onclick = function(event) {
 
 // updates the ship's rotation
 canvas.onmousemove = function(event) {
-  // clientX = event.clientX;
-  // clientY = event.clientY;
   event.preventDefault();
   console.log(event);
   var mcos = document.querySelector(".cos");
@@ -238,6 +260,7 @@ canvas.onmousemove = function(event) {
 };
 
 // window.onresize = function(event) {
+//   ctx.clearRect(-ctx.width/2, -ctx.height/2, ctx.width, ctx.height);
 //   ctx.translate(window.innerWidth/2, window.innerHeight*0.75/2);
 //   ctx.width=window.innerWidth;
 //   ctx.height=window.innerHeight*0.75;
@@ -245,8 +268,6 @@ canvas.onmousemove = function(event) {
 //   canvh.innerHTML = window.innerHeight*0.75;
   
 // };
-
-
 
 // keydown event handler
 document.onkeydown = function(event) {
@@ -297,3 +318,29 @@ document.onkeydown = function(event) {
 // * arrays provides torpedoes
 
 // ENEMY LOGIC
+
+// MOTTOS
+
+var mottos = ["cooper8",
+              "contempl8",
+              "integr8",
+              "assimil8",
+              "extermin8",
+              "elabor8",
+              "replic8",
+              "instanti8",
+              "collabor8",
+              "decim8",
+              "concaten8",
+              "communic8",
+              "anticip8",
+              "complic8",
+              "ordonn8",
+              "duplica8",
+              "interpol8",
+              "annihil8",
+              "compens8",
+              "enumer8",
+              "rot8",
+              "retali8",
+              "devi8"];
