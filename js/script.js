@@ -37,16 +37,17 @@ class Vessel {
     var newRound = new Round();
     rounds.push(newRound);
   }
+  status() {
+    sentinels.forEach(function (oneSentinel) {
+      discCollision(ship, oneSentinel);
+      if (ship.isCrashed===true) {
+        alert("You loose!!!");
+      }
+    });
+  }
 }
 var ship = new Vessel();
 
-function shipLogic() {
-  //Manage rounds drawing
-  rounds.forEach(function(oneRound) {
-    drawRound(oneRound);
-    oneRound.move();
-  });
-}
 
 
 var rounds = [];
@@ -67,15 +68,47 @@ class Round {
     this.x -= this.speed * Math.cos(this.angle + Math.PI / 2);
     this.y -= this.speed * Math.sin(this.angle + Math.PI / 2);
   }
-}
+  status() {
+    this.isCrashed = (this.x > ctx.width/2 || this.x < -ctx.width/2 || this.y > ctx.width || this.y < -ctx.width);
+    };
+  };
 
 function roundsLogic() {
   //Manage rounds drawing
   rounds.forEach(function(oneRound) {
-    drawRound(oneRound);
     oneRound.move();
+    sentinels.forEach(function(oneSentinel) {
+      discCollision(oneRound, oneSentinel);
+    });
+    oneRound.status();
   });
-}
+  // rounds = rounds.filter(function(oneRound) {
+  //   return oneRound.isCrashed == true;
+  // });
+  drawRounds(rounds);
+};
+
+function removeCrashedSentinels() {
+  sentinels = sentinels.filter(function(oneSentinel) {
+    // if (oneAsset.isCrashed = true) {
+    //   console.log(isCrashed)
+    // }
+    return !oneSentinel.isCrashed;
+});
+};
+
+function removeCrashedRounds() {
+  rounds = rounds.filter(function(oneRound) {
+    // if (oneAsset.isCrashed = true) {
+    //   console.log(isCrashed)
+    // }
+    return !oneRound.isCrashed;
+});
+};
+
+
+
+
 
 var sentinels = [];
 
@@ -112,10 +145,7 @@ class Sentinel {
       this.y -=20;
     }
     this.x += this.speed * this.dx * Math.cos(this.angle);
-    this.y += this.speed * this.dy * Math.sin(this.angle);// *this.dy
-    //* Math.cos(this.dx*this.angle + Math.PI / 2);
-    //this.y += this.speed * Math.sin(this.dy*this.angle + Math.PI / 2);
-    // 'acceleration' should probably be defined as a ship's method
+    this.y += this.speed * this.dy * Math.sin(this.angle);
   }
 }
 
@@ -126,18 +156,25 @@ function sentinelsLogic() {
     oneSentinel.move();
   });
 }
+// function shipLogic() {
+//   //Manage sentinels drawing
+//   ship.forEach(function(oneSentinel) {
+//     drawSentinel(oneSentinel);
+//     oneSentinel.move();
+//   });
+// }
 
 
-function discCollision(assetAx, assetAy, assetAw, assetBx, assetBy, assetBw ) {
-  var assetA = {diameter: assetAw/2, x: assetAx, y: assetAy};
-  var assetB = {diameter: assetBw/2, x: assetBx, y: assetBy};
 
+
+function discCollision(assetA, assetB) {
   var dx = assetA.x - assetB.x;
   var dy = assetA.y - assetB.y;
   var distance = Math.sqrt(dx * dx + dy * dy);
 
-  if (distance < assetA.diameter + assetB.diameter) {
-        // collision détectée !
+  if (distance <= assetA.width/2 + assetB.width/2) {
+    assetA.isCrashed = true;
+    assetB.isCrashed = true;
   }
 }
 
@@ -199,11 +236,16 @@ drawingLoop();
 function drawingLoop() {
   // erase the whole canvas before drawing (x, y, width, height)
   ctx.clearRect(-ctx.width/2, -ctx.height/2, ctx.width, ctx.height);
+  
   drawBackground();
   drawShip();
   // drawLaser();
   roundsLogic();
   sentinelsLogic();
+  removeCrashedRounds();
+  removeCrashedSentinels();
+  ship.status();
+
   // drawTorpedo();
   // drawProxy();
   // drawBoss();
