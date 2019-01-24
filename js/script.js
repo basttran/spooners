@@ -6,10 +6,10 @@ var ctx = canvas.getContext("2d");
 // var originY = ctx.canvas.height * 0.5;
 // ctx.translate(originX, originY);
 ctx.width=window.innerWidth;
-ctx.height=window.innerHeight*0.75;
+ctx.height=window.innerHeight*0.85;
 ctx.translate(ctx.width/2, ctx.height/2);
 
-
+var ammo = 20;
 
 // Assets
 // ------
@@ -17,7 +17,7 @@ ctx.translate(ctx.width/2, ctx.height/2);
 // ------------
 
 class Vessel {
-  constructor() {
+  constructor(munStart) {
     this.x = 0;
     this.y = 0;
     this.angle = 0;
@@ -25,6 +25,8 @@ class Vessel {
     this.img.src = "./images/temp_ship.png";
     this.width = 50;
     this.height = 50;
+    this.mun = munStart,
+    this.score = 0;
     this.isCrashed = false
   }
   align() {
@@ -34,19 +36,26 @@ class Vessel {
     // 'acceleration' should probably be defined as a ship's method
   }
   shoot() {
-    var newRound = new Round();
-    rounds.push(newRound);
+    if (this.mun > 0) {
+      this.mun -=1;
+      var newRound = new Round();
+      rounds.push(newRound);
+    }
+    
   }
   status() {
     sentinels.forEach(function (oneSentinel) {
       discCollision(ship, oneSentinel);
       if (ship.isCrashed===true) {
         alert("You loose!!!");
+        ship = new Vessel(ammo);
+        rounds = [];
+        sentinels = [];
       }
     });
   }
 }
-var ship = new Vessel();
+var ship = new Vessel(ammo);
 
 
 
