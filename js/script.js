@@ -239,7 +239,7 @@ function checkIterations() {
   }
 }
 
-var ammo = 5;
+var ammo = 20;
 
 // Assets
 // ------
