@@ -1,6 +1,8 @@
 // get the <canvas> tag from the document
 var canvas = document.getElementById("spooners");
 var parent = document.getElementById("middle");
+var leftSibling = document.getElementById("left");
+
 console.log(parent);
 canvas.width = parent.offsetWidth;
 canvas.height = parent.offsetHeight;
@@ -32,7 +34,8 @@ class Vessel {
     this.img.src = "./images/temp_ship.png";
     this.width = 50;
     this.height = 50;
-    (this.mun = munStart), (this.score = 0);
+    this.mun = munStart;
+    this.score = 0;
     this.isCrashed = false;
   }
   align() {
@@ -152,19 +155,19 @@ class Sentinel {
   }
 
   move() {
-    if (this.x <= -(ctx.width / 2 - 15)) {
+    if (this.x <= -(canvas.width / 2 - 15)) {
       this.dx = -1 * this.dx;
       this.x += 20;
     }
-    if (this.x >= -15 + ctx.width / 2) {
+    if (this.x >= -15 + canvas.width / 2) {
       this.dx = -1 * this.dx;
       this.x -= 20;
     }
-    if (this.y <= -(ctx.height / 2 - 15)) {
+    if (this.y <= -(canvas.height / 2 - 15)) {
       this.dy = -1 * this.dy;
       this.y += 20;
     }
-    if (this.y >= -15 + ctx.height / 2) {
+    if (this.y >= -15 + canvas.height / 2) {
       this.dy = -1 * this.dy;
       this.y -= 20;
     }
@@ -300,8 +303,8 @@ canvas.oncontextmenu = function(event) {
   event.preventDefault();
   console.log("Coucou rightclick");
   var newSentinel = new Sentinel(
-    (Math.floor(Math.random() * 2) - 0.5) * 2 * ctx.width * 0.9,
-    (Math.floor(Math.random() * 2) - 0.5) * 2 * ctx.height * 0.9,
+    (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.width * 0.9,
+    (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.height * 0.9,
     Math.atan2(2 * (Math.random() - 0.5), 2 * (Math.random() - 0.5))
   );
   sentinels.push(newSentinel);
@@ -321,17 +324,16 @@ canvas.onmousemove = function(event) {
   var mousex = document.querySelector(".mouse-x");
   var mousey = document.querySelector(".mouse-y");
   var angle = document.querySelector(".angle");
-  relativex = event.clientX - canvas.width * 0.5;
+  relativex = -leftSibling.offsetWidth + event.clientX - canvas.width * 0.5;
   relativey = event.clientY - canvas.height * 0.5;
   relativecos =
     (relativex * 1 + relativey * 0) /
     (Math.sqrt(relativex ** 2 + relativey ** 2) * Math.sqrt(1 ** 2 + 0 ** 2));
   relativesin =
     (relativex * 0 + relativey * -1) /
-    (Math.sqrt(relativex ** 2 + relativey ** 2) *
-      Math.sqrt(0 ** 2 + (-1) ** 2));
-  mousex.innerHTML = relativex;
-  mousey.innerHTML = relativey;
+    (Math.sqrt(relativex ** 2 + relativey ** 2) * Math.sqrt(0 ** 2 + (-1) ** 2));
+  mousex.innerHTML = event.clientX; //relativex;
+  mousey.innerHTML = event.clientY; //relativey;
   ship.angle = Math.atan2(relativecos, relativesin);
 };
 
