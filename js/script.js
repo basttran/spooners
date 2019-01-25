@@ -299,16 +299,32 @@ function drawingLoop() {
 // };
 
 // 'accelerates' the ship
-canvas.oncontextmenu = function(event) {
-  event.preventDefault();
-  console.log("Coucou rightclick");
-  var newSentinel = new Sentinel(
-    (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.width * 0.9,
-    (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.height * 0.9,
-    Math.atan2(2 * (Math.random() - 0.5), 2 * (Math.random() - 0.5))
-  );
-  sentinels.push(newSentinel);
+// canvas.oncontextmenu = function(event) {
+//   event.preventDefault();
+//   console.log("Coucou rightclick");
+  
+// };
+
+(function sentinelLoop() {
+  const rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
+  setTimeout(function() {
+    var newSentinel = new Sentinel(
+      (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.width * 0.9,
+      (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.height * 0.9,
+      Math.atan2(2 * (Math.random() - 0.5), 2 * (Math.random() - 0.5))
+    );
+    sentinels.push(newSentinel);
+    sentinelLoop()
+  }, rand);
+})();
+
+
+function updateStats() {
+  var munitions = document.querySelector(".mouse-x");
+  var score = document.querySelector(".mouse-y");
 };
+
+
 
 // shoots
 canvas.onclick = function(event) {
@@ -320,10 +336,10 @@ canvas.onclick = function(event) {
 // updates the ship's rotation
 canvas.onmousemove = function(event) {
   event.preventDefault();
-  console.log(event);
-  var mousex = document.querySelector(".mouse-x");
-  var mousey = document.querySelector(".mouse-y");
-  var angle = document.querySelector(".angle");
+  // console.log(event);
+  // var mousex = document.querySelector(".mouse-x");
+  // var mousey = document.querySelector(".mouse-y");
+  // var angle = document.querySelector(".angle");
   relativex = -leftSibling.offsetWidth + event.clientX - canvas.width * 0.5;
   relativey = event.clientY - canvas.height * 0.5;
   relativecos =
@@ -332,10 +348,12 @@ canvas.onmousemove = function(event) {
   relativesin =
     (relativex * 0 + relativey * -1) /
     (Math.sqrt(relativex ** 2 + relativey ** 2) * Math.sqrt(0 ** 2 + (-1) ** 2));
-  mousex.innerHTML = event.clientX; //relativex;
-  mousey.innerHTML = event.clientY; //relativey;
+  // mousex.innerHTML = event.clientX; //relativex;
+  // mousey.innerHTML = event.clientY; //relativey;
   ship.angle = Math.atan2(relativecos, relativesin);
 };
+
+// yo les bandits, je peux checker comment se comporte ma geometrie sur un de vos écrans? (2mn)
 
 // window.onresize = function(event) {
 //   ctx.clearRect(-ctx.width/2, -ctx.height/2, ctx.width, ctx.height);
