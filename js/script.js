@@ -239,7 +239,7 @@ function checkIterations() {
   }
 }
 
-var ammo = 50;
+var ammo = 5;
 
 // Assets
 // ------
@@ -282,7 +282,7 @@ class Vessel {
         sentinels = [];
       }
     });
-    if (ship.score > 9) {
+    if (ship.score > 24) {
       alert("You win!!!");
       ship = new Vessel(ammo);
       rounds = [];
