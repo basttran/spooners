@@ -282,7 +282,7 @@ class Vessel {
         sentinels = [];
       }
     });
-    if (ship.score > 24) {
+    if (ship.score > 19) {
       alert("You win!!!");
       ship = new Vessel(ammo);
       rounds = [];

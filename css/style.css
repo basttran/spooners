@@ -22,18 +22,26 @@ body {
 
 #left {
   width: 20%;
+  margin: 0;
   padding: 0 auto;
   text-align: center;
   align-items: stretch;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
 }
 
 #right {
   width: 20%;
+  margin: 0;
   padding: 0 auto;
   text-align: center;
   align-items: stretch;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: black;
 }
 
 #middle {
@@ -63,8 +71,19 @@ h5 {
   margin: 0;
 }
 
+code {
+  background-color: lightgrey;
+  border-radius: 10%;
+}
+
 section {
-  height: 30%;
+  height: 33%;
+  border: 2px solid black;
+  border-radius: 10%;
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .input {
@@ -81,7 +100,7 @@ section {
 
 p {
   margin-bottom: 0;
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 .blue {

@@ -11,10 +11,39 @@
     <div class="panels">
       <div id="left">
         <section>
+          <h4>OPER8</h4>
+          <code class="operation-jscode">Sample code</code>
+          <p class="operation-input red">input</p>
+          <input id="opin" class="input" type="text" />
+          <p class="operation-output blue">output</p>
+          <input id="opout" class="output" type="text" />
+        </section>
+        <section>
           <h4>ANTICIP8</h4>
           <code>Sample code</code>
           <p>input</p>
           <p>output</p>
+        </section>
+        <section>
+          <h4>EVALU8</h4>
+          <code class="evaluation-jscode">Sample code</code>
+          <p class="evaluation-input blue">input</p>
+          <input id="evin" class="input" type="number" />
+          <p class="evaluation-output red">output</p>
+          <input id="evout" class="output" type="number" />
+        </section>
+
+      </div>
+      <div id="middle"><canvas id="spooners"></canvas></div>
+      <div id="right">
+
+        <section>
+          <h4>DEVI8</h4>
+          <code class="condition-jscode">Sample code</code>
+          <p class="condition-input red">input</p>
+          <input id="coin" class="input" type="number" />
+          <p class="condition-output blue">output</p>
+          <input id="coout" class="output" type="number" />
         </section>
         <section>
           <h4>ENUMER8</h4>
@@ -23,79 +52,13 @@
           <p class="killcount">Score</p>
         </section>
         <section>
-          <h4>OPER8</h4>
-          <code class="operation-jscode">Sample code</code>
-          <p class="operation-input red">input</p>
-          <input id="opin" class="input" type="text" />
-          <p class="operation-output blue">output</p>
-          <input id="opout" class="output" type="text" />
-        </section>
-      </div>
-      <div id="middle"><canvas id="spooners"></canvas></div>
-      <div id="right">
-        <section>
-          <h4>EVALU8</h4>
-          <code class="evaluation-jscode">Sample code</code>
-          <p class="evaluation-input blue">input</p>
-          <input id="evin" class="input" type="number" />
-          <p class="evaluation-output red">output</p>
-          <input id="evout" class="output" type="number" />
-          <!-- <code class="evaluation-jscode">Sample code</code>
-          <p class="evaluation-input">input</p>
-          <p class="evaluation-output">output</p> -->
-        </section>
-        <section>
-          <h4>DEVI8</h4>
-          <code class="condition-jscode">Sample code</code>
-          <p class="condition-input red">input</p>
-          <input id="coin" class="input" type="number" />
-          <p class="condition-output blue">output</p>
-          <input id="coout" class="output" type="number" />
-
-          <!-- <code class="condition-jscode">Sample code</code>
-          <p class="condition-input">input</p>
-          <p class="condition-output">output</p> -->
-        </section>
-        <section>
           <h4>ITER8</h4>
           <code class="iteration-jscode">Sample code</code>
           <p class="iteration-input red">input</p>
           <input id="itin" class="input" type="number" />
           <p class="iteration-output blue">output</p>
           <input id="itout" class="output" type="number" />
-
-          <!-- <code class="iteration-jscode">Sample code</code>
-          <p class="iteration-input">input</p>
-          <p class="iteration-output">output</p> -->
         </section>
-        <!-- <section>
-        <h5>Angle</h5>
-        <ul>
-          <li class="cos">x coord page</li>
-          <li class="sin">y coord page</li>
-        </ul>
-      </section> -->
-        <!-- <section>
-        <h5>Canvas size</h5>
-        <ul>
-          <li class="canv-w">canvas width</li>
-          <li class="canv-h">canvas height</li>
-        </ul>
-      </section> -->
-        <!-- <section>
-        <h5>Coords in canvas' frame</h5>
-        <ul>
-          <li class="canv-x">x coord canvas</li>
-          <li class="canv-y">x coord canvas</li>
-        </ul>
-      </section> -->
-        <!-- <section>
-        <h5>Coords in ship's frame</h5>
-        <ul>
-          <li class="ship-x">x coord ship</li>
-          <li class="ship-y">x coord ship</li>
-        </ul>
-      </section> -->
       </div>
     </div>
     <script src="./js/script.js"></script>
