@@ -2,21 +2,242 @@
 var canvas = document.getElementById("spooners");
 var parent = document.getElementById("middle");
 var leftSibling = document.getElementById("left");
-
-console.log(parent);
 canvas.width = parent.offsetWidth;
 canvas.height = parent.offsetHeight;
-// get the context object (has all the methods for drawing things)
 var ctx = canvas.getContext("2d");
-// var originX = ctx.canvas.width * 0.5;
-// var originY = ctx.canvas.height * 0.5;
-// ctx.translate(originX, originY);
-// var middleDiv = document.querySelector(".middle")
-// console.log(middleDiv.width);
-// canvas.width = middleDiv.width;
-// canvas.height = middleDiv.height;
 ctx.translate(parent.offsetWidth / 2, parent.offsetHeight / 2);
-// var dims = document.querySelector(".spooners");
+
+operations = [
+  {
+    code: "(x**3 + 6)*7",
+    inputQuestion: "if x===2 this expression will return ...",
+    inputAnswer: "91",
+    outputQuestion: "which value of x makes this expression return 42",
+    outputAnswer: "0",
+    solved: false
+  },
+  {
+    code: "x%11",
+    inputQuestion: "if 'x===80' this expression will return ...",
+    inputAnswer: "3",
+    outputQuestion: "provide a value for x so that it returns 9",
+    outputAnswer: "20",
+    solved: false
+  },
+  {
+    code: "Empty",
+    inputQuestion: "Empty",
+    inputAnswer: "",
+    outputQuestion: "Empty",
+    outputAnswer: "",
+    solved: false
+  }
+];
+
+var operSlotCode = document.querySelector(".operation-jscode");
+var operSlotInput = document.querySelector(".operation-input");
+var operSlotOutput = document.querySelector(".operation-output");
+operSlotCode.innerHTML = operations[0].code;
+operSlotInput.innerHTML = operations[0].inputQuestion;
+operSlotOutput.innerHTML = operations[0].outputQuestion;
+
+opin.addEventListener("input", function(evt) {
+  checkOperations();
+});
+opout.addEventListener("input", function(evt) {
+  checkOperations();
+});
+
+function checkOperations() {
+  var opin = document.getElementById("opin");
+  var opout = document.getElementById("opout");
+  if (
+    opin.value == operations[0].inputAnswer &&
+    opout.value == operations[0].outputAnswer
+  ) {
+    ship.mun += 1;
+    operations.shift();
+    opin.value = "";
+    opout.value = "";
+    operSlotCode.innerHTML = operations[0].code;
+    operSlotInput.innerHTML = operations[0].inputQuestion;
+    operSlotOutput.innerHTML = operations[0].outputQuestion;
+  }
+}
+
+evaluations = [
+  {
+    code: "var x; x > 67 ;",
+    inputQuestion: "if 'x==97', what is returned by the latter expression",
+    inputAnswer: "true",
+    outputQuestion: "smallest integer for x to makes this expression return 'false",
+    outputAnswer: "68",
+    solved: false
+  },
+  {
+    code: "var x; x <= 99 ;",
+    inputQuestion: "if 'x==199', what is returned by expression",
+    inputAnswer: "false",
+    outputQuestion: "largest integer for x to makes this expression return 'true",
+    outputAnswer: "68",
+    solved: false
+  },
+  {
+    code: "Empty",
+    inputQuestion: "Empty",
+    inputAnswer: "",
+    outputQuestion: "Empty",
+    outputAnswer: "",
+    solved: false
+  }
+];
+
+var evalSlotCode = document.querySelector(".evaluation-jscode");
+var evalSlotInput = document.querySelector(".evaluation-input");
+var evalSlotOutput = document.querySelector(".evaluation-output");
+evalSlotCode.innerHTML = evaluations[0].code;
+evalSlotInput.innerHTML = evaluations[0].inputQuestion;
+evalSlotOutput.innerHTML = evaluations[0].outputQuestion;
+
+evin.addEventListener("input", function(evt) {
+  checkEvaluations();
+});
+evout.addEventListener("input", function(evt) {
+  checkEvaluations();
+});
+
+function checkEvaluations() {
+  var evin = document.getElementById("evin");
+  var evout = document.getElementById("evout");
+  if (
+    evin.value == evaluations[0].inputAnswer &&
+    evout.value == evaluations[0].outputAnswer
+  ) {
+    ship.mun += 2;
+    evaluations.shift();
+    evin.value = "";
+    evout.value = "";
+    evalSlotCode.innerHTML = evaluations[0].code;
+    evalSlotInput.innerHTML = evaluations[0].inputQuestion;
+    evalSlotOutput.innerHTML = evaluations[0].outputQuestion;
+  }
+}
+
+conditions = [
+  {
+    code: "var x; if (x > 7 && x%3 == 0) {return x+'plip';} else {x**2+'plop';}",
+    inputQuestion: "if x==81 this expression will return ...",
+    inputAnswer: "81plip",
+    outputQuestion: "smallest integer of x for this expression to return '0plop'",
+    outputAnswer: "0",
+    solved: false
+  },
+  {
+    code: "x%11",
+    inputQuestion: "if 'x===80' this expression will return ...",
+    inputAnswer: "3",
+    outputQuestion: "provide a value for x so that it returns 9",
+    outputAnswer: "20",
+    solved: false
+  },
+  {
+    code: "Empty",
+    inputQuestion: "Empty",
+    inputAnswer: "",
+    outputQuestion: "Empty",
+    outputAnswer: "",
+    solved: false
+  }
+];
+
+var condSlotCode = document.querySelector(".condition-jscode");
+var condSlotInput = document.querySelector(".condition-input");
+var condSlotOutput = document.querySelector(".condition-output");
+condSlotCode.innerHTML = conditions[0].code;
+condSlotInput.innerHTML = conditions[0].inputQuestion;
+condSlotOutput.innerHTML = conditions[0].outputQuestion;
+
+itin.addEventListener("input", function(evt) {
+  checkConditions();
+});
+itout.addEventListener("input", function(evt) {
+  checkConditions();
+});
+
+function checkConditions() {
+  var itin = document.getElementById("coin");
+  var itout = document.getElementById("coout");
+  if (
+    itin.value == conditions[0].inputAnswer &&
+    itout.value == conditions[0].outputAnswer
+  ) {
+    ship.mun += 5;
+    conditions.shift();
+    coin.value = "";
+    coout.value = "";
+    condSlotCode.innerHTML = conditions[0].code;
+    condSlotInput.innerHTML = conditions[0].inputQuestion;
+    condSlotOutput.innerHTML = conditions[0].outputQuestion;
+  }
+}
+
+iterations = [
+  {
+    code: "var x; for (i = 5; i < 7; i++) { x *= x; return x;}",
+    inputQuestion: "if 'x==2' this expression will return ...",
+    inputAnswer: "8",
+    outputQuestion: "which value of x makes this expression return 216",
+    outputAnswer: "6",
+    solved: false
+  },
+  {
+    code: "var y; for (k = 0; k < 4; i+=2) { y += 3; return y;}",
+    inputQuestion: "if 'y==1' this expression will return ...",
+    inputAnswer: "7",
+    outputQuestion: "provide a value for y so that it returns 9",
+    outputAnswer: "3",
+    solved: false
+  },
+  {
+    code: "Empty",
+    inputQuestion: "Empty",
+    inputAnswer: "",
+    outputQuestion: "Empty",
+    outputAnswer: "",
+    solved: false
+  }
+];
+
+var iterSlotCode = document.querySelector(".iteration-jscode");
+var iterSlotInput = document.querySelector(".iteration-input");
+var iterSlotOutput = document.querySelector(".iteration-output");
+iterSlotCode.innerHTML = iterations[0].code;
+iterSlotInput.innerHTML = iterations[0].inputQuestion;
+iterSlotOutput.innerHTML = iterations[0].outputQuestion;
+
+itin.addEventListener("input", function(evt) {
+  checkIterations();
+});
+itout.addEventListener("input", function(evt) {
+  checkIterations();
+});
+
+function checkIterations() {
+  var itin = document.getElementById("itin");
+  var itout = document.getElementById("itout");
+  if (
+    itin.value == iterations[0].inputAnswer &&
+    itout.value == iterations[0].outputAnswer
+  ) {
+    ship.mun += 10;
+    iterations.shift();
+    itin.value = "";
+    itout.value = "";
+    iterSlotCode.innerHTML = iterations[0].code;
+    iterSlotInput.innerHTML = iterations[0].inputQuestion;
+    iterSlotOutput.innerHTML = iterations[0].outputQuestion;
+  }
+}
 
 var ammo = 50;
 
@@ -276,6 +497,7 @@ function drawingLoop() {
   sentinelsLogic();
   removeCrashedRounds();
   removeCrashedSentinels();
+  updateStats();
   ship.status();
 
   // drawTorpedo();
@@ -302,7 +524,7 @@ function drawingLoop() {
 // canvas.oncontextmenu = function(event) {
 //   event.preventDefault();
 //   console.log("Coucou rightclick");
-  
+
 // };
 
 (function sentinelLoop() {
@@ -314,23 +536,27 @@ function drawingLoop() {
       Math.atan2(2 * (Math.random() - 0.5), 2 * (Math.random() - 0.5))
     );
     sentinels.push(newSentinel);
-    sentinelLoop()
+    sentinelLoop();
   }, rand);
 })();
 
-
 function updateStats() {
-  var munitions = document.querySelector(".mouse-x");
-  var score = document.querySelector(".mouse-y");
-};
-
-
+  var munitions = document.querySelector(".munitions");
+  var killcount = document.querySelector(".killcount");
+  munitions.innerHTML = "Rounds left: " + ship.mun + " bad boys";
+  killcount.innerHTML = "So far " + ship.score + " hostiles down";
+}
 
 // shoots
 canvas.onclick = function(event) {
   event.preventDefault();
   console.log("Pew pew");
   ship.shoot();
+};
+
+canvas.oncontextmenu = function(event) {
+  event.preventDefault();
+
 };
 
 // updates the ship's rotation
@@ -347,7 +573,8 @@ canvas.onmousemove = function(event) {
     (Math.sqrt(relativex ** 2 + relativey ** 2) * Math.sqrt(1 ** 2 + 0 ** 2));
   relativesin =
     (relativex * 0 + relativey * -1) /
-    (Math.sqrt(relativex ** 2 + relativey ** 2) * Math.sqrt(0 ** 2 + (-1) ** 2));
+    (Math.sqrt(relativex ** 2 + relativey ** 2) *
+      Math.sqrt(0 ** 2 + (-1) ** 2));
   // mousex.innerHTML = event.clientX; //relativex;
   // mousey.innerHTML = event.clientY; //relativey;
   ship.angle = Math.atan2(relativecos, relativesin);
@@ -365,33 +592,33 @@ canvas.onmousemove = function(event) {
 
 // };
 
-// keydown event handler
-document.onkeydown = function(event) {
-  if (ship.isCrashed) {
-    // exit the function without moving if Céline is crashed
-    return;
-  }
-  // check keycodes @ keycode.info
-  console.log("coucou KEY DOWN " + event.keyCode);
-  switch (event.keyCode) {
-    case 37:
-      // prevents the default behaviour of keyboard presses (scrolling)
-      event.preventDefault();
-      ship.angle -= Math.PI / 90; // counter clockwise
-      console.log(
-        "COUCOU babord" + ship.angle + "posX" + ship.x + "posY" + ship.y
-      );
-      break;
-    case 39:
-      // prevents the default behaviour of keyboard presses (scrolling)
-      event.preventDefault();
-      ship.angle += Math.PI / 90; // clockwise
-      console.log(
-        "COUCOU tribord" + ship.angle + "posX" + ship.x + "posY" + ship.y
-      );
-      break;
-  }
-};
+// // keydown event handler
+// document.onkeydown = function(event) {
+//   if (ship.isCrashed) {
+//     // exit the function without moving if Céline is crashed
+//     return;
+//   }
+//   // check keycodes @ keycode.info
+//   console.log("coucou KEY DOWN " + event.keyCode);
+//   switch (event.keyCode) {
+//     case 37:
+//       // prevents the default behaviour of keyboard presses (scrolling)
+//       event.preventDefault();
+//       ship.angle -= Math.PI / 90; // counter clockwise
+//       console.log(
+//         "COUCOU babord" + ship.angle + "posX" + ship.x + "posY" + ship.y
+//       );
+//       break;
+//     case 39:
+//       // prevents the default behaviour of keyboard presses (scrolling)
+//       event.preventDefault();
+//       ship.angle += Math.PI / 90; // clockwise
+//       console.log(
+//         "COUCOU tribord" + ship.angle + "posX" + ship.x + "posY" + ship.y
+//       );
+//       break;
+//   }
+// };
 
 // shape3.on('mouseenter', function () {
 //   stage.container().style.cursor = 'crosshair';
@@ -403,6 +630,7 @@ document.onkeydown = function(event) {
 
 // PUZZLE LOGIC
 // -------------------------------------
+
 // 4 arrays of puzzles
 
 // * arithmetic provides thrust
