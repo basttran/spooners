@@ -93,31 +93,24 @@ section {
 
 }
 
-
-
-.condition-input {
-  background-color: red;
-}
 .red {
+  background-color: red;
   color: rgb(255,0,200);
-}
-
-.condition-output {
-  background-color: blue;
+  width: 80%;
 }
 
 .blue {
+  background-color: blue;
   color: rgb(100,0,255);
+  width: 80%;
 }
 
 .input {
   width: 80%;
-  margin: 5px;
 }
 
 .output {
   width: 80%;
-  margin: 5px;
 }
 
 .amount {
