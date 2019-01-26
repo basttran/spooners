@@ -30,6 +30,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: black;
+  justify-content: space-around;
 }
 
 #right {
@@ -42,6 +43,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: black;
+  justify-content: space-around;
 }
 
 #middle {
@@ -77,12 +79,14 @@ code {
   border-radius: 5%;
   padding: 10px;
   height:20%;
-  color: white;
+  color: greenyellow;
+  font-weight: bold;
   width: 80%;
+  vertical-align: center;
 }
 
 section {
-  height: 33%;
+  height: 40%;
   border: 2px solid black;
   border-radius: 5%;
   display: flex;
@@ -93,6 +97,11 @@ section {
 
 }
 
+
+.other {
+  height: 20%;
+}
+
 .red {
   background-color: red;
   color: rgb(255,0,200);
@@ -101,27 +110,37 @@ section {
 
 .blue {
   background-color: blue;
-  color: rgb(100,0,255);
+  color: rgb(100, 0, 255);
   width: 80%;
 }
 
 .input {
-  width: 80%;
+  width: 70%;
+  background-color: black;
+  border-radius: 10%;
+  padding: 10px;
+  color: greenyellow;
+  font-weight: bold;
 }
 
 .output {
-  width: 80%;
-}
+  width: 70%;
+  background-color: black;
+  border-radius: 10%;
+  padding: 10px;
+  color: greenyellow;
+  font-weight: bold;}
 
 .amount {
   display: block;
 }
 
-
 p {
   display: block;
+  padding: 2%;
   margin: 0;
   width: 80%;
+  border-radius: 5%;
   /* font-weight: bold; */
 }
 

@@ -10,8 +10,8 @@ ctx.translate(parent.offsetWidth / 2, parent.offsetHeight / 2);
 operations = [
   {
     code: "(x**3 + 6)*7",
-    inputQuestion: "if x===2 this expression will return ...",
-    inputAnswer: "91",
+    inputQuestion: "if x==2 this expression will return ...",
+    inputAnswer: "98",
     outputQuestion: "which value of x makes this expression return 42",
     outputAnswer: "0",
     solved: false
@@ -20,7 +20,7 @@ operations = [
     code: "x%11",
     inputQuestion: "if 'x===80' this expression will return ...",
     inputAnswer: "3",
-    outputQuestion: "provide a value for x so that it returns 9",
+    outputQuestion: "provide the smallest integer (x) for the expression to return 9",
     outputAnswer: "20",
     solved: false
   },
@@ -70,8 +70,8 @@ evaluations = [
     code: "var x; x > 67 ;",
     inputQuestion: "if 'x==97', what is returned by the latter expression",
     inputAnswer: "true",
-    outputQuestion: "smallest integer for x to makes this expression return 'false",
-    outputAnswer: "68",
+    outputQuestion: "smallest natural number (x) to makes this expression return 'false",
+    outputAnswer: "0",
     solved: false
   },
   {
@@ -79,7 +79,7 @@ evaluations = [
     inputQuestion: "if 'x==199', what is returned by expression",
     inputAnswer: "false",
     outputQuestion: "largest integer for x to makes this expression return 'true",
-    outputAnswer: "68",
+    outputAnswer: "99",
     solved: false
   },
   {
@@ -128,7 +128,7 @@ conditions = [
     code: "var x; if (x > 7 && x%3 == 0) {return x+'plip';} else {x**2+'plop';}",
     inputQuestion: "if x==81 this expression will return ...",
     inputAnswer: "81plip",
-    outputQuestion: "smallest integer of x for this expression to return '0plop'",
+    outputQuestion: "smallest natural number (x) for this expression to return '0plop'",
     outputAnswer: "0",
     solved: false
   },
@@ -282,7 +282,7 @@ class Vessel {
         sentinels = [];
       }
     });
-    if (ship.score > 19) {
+    if (ship.score > 29) {
       alert("You win!!!");
       ship = new Vessel(ammo);
       rounds = [];
@@ -527,18 +527,18 @@ function drawingLoop() {
 
 // };
 
-// (function sentinelLoop() {
-//   const rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
-//   setTimeout(function() {
-//     var newSentinel = new Sentinel(
-//       (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.width * 0.9,
-//       (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.height * 0.9,
-//       Math.atan2(2 * (Math.random() - 0.5), 2 * (Math.random() - 0.5))
-//     );
-//     sentinels.push(newSentinel);
-//     sentinelLoop();
-//   }, rand);
-// })();
+(function sentinelLoop() {
+  const rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
+  setTimeout(function() {
+    var newSentinel = new Sentinel(
+      (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.width * 0.9,
+      (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.height * 0.9,
+      Math.atan2(2 * (Math.random() - 0.5), 2 * (Math.random() - 0.5))
+    );
+    sentinels.push(newSentinel);
+    sentinelLoop();
+  }, rand);
+})();
 
 function updateStats() {
   var munitions = document.querySelector(".munitions");
