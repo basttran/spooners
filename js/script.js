@@ -527,18 +527,18 @@ function drawingLoop() {
 
 // };
 
-(function sentinelLoop() {
-  const rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
-  setTimeout(function() {
-    var newSentinel = new Sentinel(
-      (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.width * 0.9,
-      (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.height * 0.9,
-      Math.atan2(2 * (Math.random() - 0.5), 2 * (Math.random() - 0.5))
-    );
-    sentinels.push(newSentinel);
-    sentinelLoop();
-  }, rand);
-})();
+// (function sentinelLoop() {
+//   const rand = Math.round(Math.random() * (6000 - 2000)) + 2000;
+//   setTimeout(function() {
+//     var newSentinel = new Sentinel(
+//       (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.width * 0.9,
+//       (Math.floor(Math.random() * 2) - 0.5) * 2 * canvas.height * 0.9,
+//       Math.atan2(2 * (Math.random() - 0.5), 2 * (Math.random() - 0.5))
+//     );
+//     sentinels.push(newSentinel);
+//     sentinelLoop();
+//   }, rand);
+// })();
 
 function updateStats() {
   var munitions = document.querySelector(".munitions");
@@ -558,6 +558,11 @@ canvas.oncontextmenu = function(event) {
   event.preventDefault();
 
 };
+
+canvas.onmousedown = function(event) {
+  event.preventDefault();
+}
+     
 
 // updates the ship's rotation
 canvas.onmousemove = function(event) {

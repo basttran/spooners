@@ -64,7 +64,8 @@ body {
 }
 
 h4 {
-  margin: 0;
+padding: 2px;
+margin: 0;
 }
 
 h5 {
@@ -72,37 +73,62 @@ h5 {
 }
 
 code {
-  background-color: lightgrey;
-  border-radius: 10%;
+  background-color: black;
+  border-radius: 5%;
+  padding: 10px;
+  height:20%;
+  color: white;
+  width: 80%;
 }
 
 section {
   height: 33%;
   border: 2px solid black;
-  border-radius: 10%;
-  background-color: grey;
+  border-radius: 5%;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  justify-content: space-around;
+  align-items: center;
+  background-color: grey;
+
 }
 
-.input {
-  margin: 0;
-}
 
-.output {
-  margin: 0;
-}
 
+.condition-input {
+  background-color: red;
+}
 .red {
-  color: red;
+  color: rgb(255,0,200);
 }
 
-p {
-  margin-bottom: 0;
-  font-weight: bold;
+.condition-output {
+  background-color: blue;
 }
 
 .blue {
-  color: blue;
+  color: rgb(100,0,255);
 }
+
+.input {
+  width: 80%;
+  margin: 5px;
+}
+
+.output {
+  width: 80%;
+  margin: 5px;
+}
+
+.amount {
+  display: block;
+}
+
+
+p {
+  display: block;
+  margin: 0;
+  width: 80%;
+  /* font-weight: bold; */
+}
+
